@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yatham Yaswanth Kumar Reddy | Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+        :root {
+            --aurora-gradient: linear-gradient(125deg, #ff3366, #ff9966, #ffcc66, #66ff99, #66ccff, #9966ff, #ff3366);
+            --background-dark: #0d0d0f;
+            --text-color: #f0f0f0;
+            --text-muted: #a0a0a0;
+            --card-bg: rgba(22, 22, 26, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Animated Aurora Background */
+        .aurora-background {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .aurora-background::before, .aurora-background::after {
+            content: '';
+            position: absolute;
+            width: 100vmin; height: 100vmin;
+            border-radius: 50%;
+            background: var(--aurora-gradient);
+            background-size: 400% 400%;
+            filter: blur(100px);
+            opacity: 0.5;
+            animation: aurora-flow 20s linear infinite;
+        }
+        .aurora-background::after {
+            top: -50vmin; right: -50vmin;
+            animation-delay: -10s;
+        }
+        @keyframes aurora-flow {
+            0% { transform: rotate(0deg) scale(1); background-position: 0% 50%; }
+            50% { transform: rotate(180deg) scale(1.2); background-position: 100% 50%; }
+            100% { transform: rotate(360deg) scale(1); background-position: 0% 50%; }
+        }
+
+        .container { max-width: 1140px; margin: auto; padding: 0 2rem; }
+        
+        /* 3D Edge Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(13, 13, 15, 0.7);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 1rem 0;
+            z-index: 1000;
+        }
+        nav::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 2px;
+            background: var(--aurora-gradient);
+            background-size: 200% 200%;
+            animation: edge-glow 5s linear infinite;
+        }
+        @keyframes edge-glow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { font-size: 1.6rem; font-weight: 700; color: #fff; text-decoration: none; }
+        .nav-links { list-style: none; display: flex; }
+        .nav-links li { margin-left: 2rem; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text-color); }
+        
+        .section { padding: 8rem 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        
+        #home { perspective: 1000px; }
+        .header-content { text-align: center; transition: transform 0.1s ease-out; }
+        .header-content h1 { font-size: 4rem; margin-bottom: 0.5rem; letter-spacing: -1px; }
+        
+        /* New Text Hover Effect */
+        .text-hover {
+            transition: transform 0.3s;
+            background: var(--aurora-gradient);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: text-glow 5s linear infinite;
+        }
+        @keyframes text-glow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .subtitle { font-size: 1.6rem; font-family: 'Roboto Mono', monospace; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .social-links a { color: var(--text-muted); font-size: 1.8rem; margin: 0 0.8rem; transition: color 0.3s ease, transform 0.3s ease; }
+        .social-links a:hover { color: var(--text-color); transform: translateY(-3px); }
+        .header-buttons { margin-top: 2.5rem; }
+        .btn { display: inline-block; padding: 0.8rem 1.8rem; background: rgba(255, 255, 255, 0.1); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; transition: transform 0.3s ease, background 0.3s ease; margin: 0.5rem; border: 1px solid var(--card-border); }
+        .btn:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.2); }
+        .btn-primary { background: transparent; position: relative; overflow: hidden; }
+        .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--aurora-gradient); background-size: 200% 200%; transition: left 0.5s; z-index: -1; }
+        .btn-primary:hover::before { left: 0; }
+
+        .section-content h2 { text-align: center; font-size: 2.8rem; margin-bottom: 3rem; }
+        
+        /* Glassmorphism Card */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid var(--card-border);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            transform-style: preserve-3d;
+            transform: translateY(50px) rotateX(-10deg) scale(0.95);
+            opacity: 0;
+            overflow: hidden;
+        }
+        .card.is-visible { transform: translateY(0) rotateX(0deg) scale(1); opacity: 1; }
+        .card .glare { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 15px; background-image: radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 50%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .about-content { max-width: 800px; margin: 0 auto; text-align: center; font-size: 1.1rem; color: var(--text-muted); }
+        .experience-item, .achievement-card { text-align: center; }
+        .experience-item i, .achievement-card i { font-size: 2.5rem; background: var(--aurora-gradient); background-size: 200% 200%; animation: text-glow 5s linear infinite; -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 1rem; }
+        .achievement-card i { font-size: 3rem; color: #ffd700; }
+        .experience-item h3, .achievement-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .experience-item p, .achievement-card p { color: var(--text-muted); font-size: 1rem; font-family: 'Roboto Mono', monospace; }
+        .skill-category h3 { background: var(--aurora-gradient); background-size: 200% 200%; animation: text-glow 5s linear infinite; -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 1rem; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem; }
+        .skill-category ul { list-style: none; }
+        .skill-category li { margin-bottom: 0.75rem; color: var(--text-muted); position: relative; padding-left: 20px; }
+        .skill-category li::before { content: '>'; position: absolute; left: 0; color: #ff3366; font-family: 'Roboto Mono', monospace; }
+        .project-card h3 { background: var(--aurora-gradient); background-size: 200% 200%; animation: text-glow 5s linear infinite; -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 1rem; }
+        .project-card p { color: var(--text-muted); font-size: 0.9rem; }
+        .timeline-item { position: relative; padding: 1rem; padding-left: 2rem; border-left: 2px solid var(--card-border); margin-bottom: 1rem; }
+        .timeline-item::before { content: ''; position: absolute; left: -9px; top: 1rem; width: 16px; height: 16px; background: var(--background-dark); border: 3px solid #ff3366; border-radius: 50%; }
+        .timeline-item p { font-family: 'Roboto Mono', monospace; }
+        
+        footer { background: var(--card-bg); backdrop-filter: blur(10px); text-align: center; padding: 3rem 0; border-top: 1px solid var(--card-border); }
+        .contact-info p { margin: 0.5rem 0; font-size: 1.1rem; }
+        .contact-info a { color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+        .contact-info a:hover { color: var(--text-color); }
+        .contact-info i { background: var(--aurora-gradient); background-size: 200% 200%; animation: text-glow 5s linear infinite; -webkit-background-clip: text; background-clip: text; color: transparent; margin-right: 0.75rem; }
+        .social-links-footer { margin-top: 1.5rem; }
+        .social-links-footer a { color: var(--text-muted); font-size: 1.5rem; margin: 0 0.75rem; transition: color 0.3s ease, transform 0.3s ease; }
+        .social-links-footer a:hover { color: var(--text-color); transform: translateY(-3px); }
+
+        @media(max-width: 992px) { .nav-links { display: none; } }
+        @media(max-width: 768px) {
+            .section { padding: 5rem 0; }
+            .header-content h1 { font-size: 2.8rem; }
+            .subtitle { font-size: 1rem; }
+            .section-content h2 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="aurora-background"></div>
+
+    <nav>
+        <div class="container">
+            <a href="#home" class="nav-logo">YASWANTH</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li><li><a href="#experience">Experience</a></li><li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li><li><a href="#education">Education</a></li><li><a href="#achievements">Achievements</a></li><li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div id="fullpage-container">
+        <section id="home" class="section">
+            <div class="container header-content">
+                <h1 id="main-heading">Yatham Yaswanth Kumar Reddy</h1>
+                <p class="subtitle">M.Tech Student | Systems Programming & Secure Architectures</p>
+                <div class="social-links">
+                    <a href="https://linkedin.com/in/yaswanth-kumar-reddy-a82188208" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/yasw175" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://leetcode.com/u/Yaswanth_kumar_reddy_123/" target="_blank" aria-label="LeetCode"><i class="fas fa-code"></i></a>
+                </div>
+                <div class="header-buttons">
+                    <a href="#contact" class="btn btn-primary">Contact Me</a>
+                    <a href="https://drive.google.com/file/d/1EFikX75RdC1HkYxyAmedRNWKoIMt4LAl/view?usp=sharing" target="_blank" class="btn">View Resume</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section">
+            <div class="container section-content">
+                <h2 id="about-heading">About Me</h2>
+                <div class="about-content">
+                    <p>M.Tech student with strong CS fundamentals, systems programming, and secure distributed architectures. Experienced in Linux kernel, file systems, multithreading, and side-channel security. My goal is to build secure, high-performance software that delivers real-world impact.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section">
+            <div class="container section-content">
+                <h2 id="experience-heading">Freelance Experience</h2>
+                <div class="grid-layout">
+                    <div class="experience-item card"><div class="glare"></div><i class="fas fa-brain"></i><h3>AI Trainer</h3><p>Outlier.ai</p></div>
+                    <div class="experience-item card"><div class="glare"></div><i class="fas fa-book-open-reader"></i><h3>Subject Matter Expert</h3><p>Course Hero</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section">
+            <div class="container section-content">
+                <h2 id="skills-heading">Technical Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-category card"><div class="glare"></div><h3>Languages</h3><ul><li>C & C++</li><li>Python</li><li>JavaScript</li></ul></div>
+                    <div class="skill-category card"><div class="glare"></div><h3>Systems</h3><ul><li>Linux Kernel & FUSE</li><li>Multithreading</li><li>Docker</li></ul></div>
+                    <div class="skill-category card"><div class="glare"></div><h3>Developer Tools</h3><ul><li>Git & GitHub Actions</li><li>Jenkins</li><li>GDB & Intel SDE</li></ul></div>
+                    <div class="skill-category card"><div class="glare"></div><h3>Fundamentals</h3><ul><li>OS & Networking</li><li>Data Structures & Algorithms</li><li>Secure Coding</li></ul></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <div class="container section-content">
+                <h2 id="projects-heading">Projects</h2>
+                <div class="grid-layout">
+                    <div class="project-card card"><div class="glare"></div><h3>Spectre Meltdown Simulation</h3><p>Emulated speculative-execution attacks and developed mitigation scripts with 20% fewer false positives.</p></div>
+                    <div class="project-card card"><div class="glare"></div><h3>FUSE-based Multithreaded File System</h3><p>Implemented a file system in C with journaling, caching, and compression, achieving a 40% throughput gain.</p></div>
+                    <div class="project-card card"><div class="glare"></div><h3>Linux Kernel Scheduler Enhancer</h3><p>Created a priority-based CPU scheduler, reducing page allocation latency by 30% and ensuring stability.</p></div>
+                    <div class="project-card card"><div class="glare"></div><h3>Anemia Detection Dashboard</h3><p>Built a Python ML model with 92% accuracy and developed an interactive JavaScript dashboard for data visualization.</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="education" class="section">
+            <div class="container section-content">
+                <h2 id="education-heading">Education</h2>
+                <div>
+                    <div class="timeline-item"><h3>Sri Sathya Sai Institute of Higher Learning</h3><p><strong>M.Tech in Computer Science Engineering</strong> | 2024-2026</p></div>
+                    <div class="timeline-item"><h3>Presidency University</h3><p><strong>B.Tech in Computer Science Engineering</strong> | 2019-2023</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="achievements" class="section">
+            <div class="container section-content">
+                <h2 id="achievements-heading">Achievements</h2>
+                <div class="grid-layout">
+                    <div class="achievement-card card"><div class="glare"></div><i class="fas fa-trophy"></i><h3>Winner, Aptean AI Hackathon</h3><p>Led a team to create an LLM-driven suggestion tool with a secure, real-time backend.</p></div>
+                    <div class="achievement-card card"><div class="glare"></div><i class="fas fa-award"></i><h3>Semifinalist, Flipkart GRID 6.0</h3><p>Architected high-concurrency microservices and showcased scalable solutions nationally.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <footer class="container section-content">
+                <h2 id="contact-heading">Contact Me</h2>
+                <p style="color: var(--text-muted); margin-top: -1rem; margin-bottom: 2rem;">Feel free to reach out!</p>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:yatamyaswanth@gmail.com">yatamyaswanth@gmail.com</a></p>
+                    <p><i class="fas fa-phone"></i> +91-9008560320</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Puttaparthi, India</p>
+                </div>
+                <div class="social-links-footer">
+                    <a href="https://linkedin.com/in/yaswanth-kumar-reddy-a82188208" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/yasw175" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://leetcode.com/u/Yaswanth_kumar_reddy_123/" target="_blank" aria-label="LeetCode"><i class="fas fa-code"></i></a>
+                </div>
+            </footer>
+        </section>
+    </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- 3D Header Mouse Move Effect ---
+        const homeSection = document.getElementById('home');
+        if (homeSection) {
+            const headerContent = homeSection.querySelector('.header-content');
+            homeSection.addEventListener('mousemove', (e) => {
+                const { clientWidth, clientHeight } = homeSection;
+                const x = (e.clientX / clientWidth - 0.5) * 20; // Reduced rotation
+                const y = (e.clientY / clientHeight - 0.5) * -20;
+                headerContent.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${y}deg)`;
+            });
+        }
+
+        // --- Scroll Animations for Cards ---
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    scrollObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.card').forEach(card => scrollObserver.observe(card));
+        
+        // --- Active Nav Link on Scroll ---
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                    });
+                }
+            });
+        }, { rootMargin: '-50% 0px -50% 0px' });
+        document.querySelectorAll('.section').forEach(section => navObserver.observe(section));
+
+        // --- 3D Tilt Effect for Cards ---
+        document.querySelectorAll('.card').forEach(card => {
+            const glare = card.querySelector('.glare');
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const { width, height } = rect;
+                const rotX = (y / height - 0.5) * -15;
+                const rotY = (x / width - 0.5) * 15;
+                if(!card.classList.contains('is-visible')) return;
+                card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.05)`;
+                if(glare) {
+                    glare.style.opacity = '1';
+                    glare.style.background = `radial-gradient(circle at ${(x/width)*100}% ${(y/height)*100}%, rgba(255,255,255,0.4), transparent 50%)`;
+                }
+            });
+            card.addEventListener('mouseleave', () => {
+                if(!card.classList.contains('is-visible')) return;
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                if(glare) glare.style.opacity = '0';
+            });
+        });
+
+        // --- Text Hover Effect ---
+        document.querySelectorAll('h1, h2').forEach(el => {
+            el.addEventListener('mouseover', () => el.classList.add('text-hover'));
+            el.addEventListener('mouseout', () => el.classList.remove('text-hover'));
+        });
+    });
+    </script>
+</body>
+</html>
