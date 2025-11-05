@@ -11,18 +11,18 @@
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
     <style>
-        /* --- Global Styles --- */
+        /* --- CSS Variables (Light Theme) --- */
         :root {
             --primary-color: #007bff;
-            --secondary-color: #6c757d;
             --background-light: #f8f9fa;
             --background-white: #ffffff;
             --text-dark: #212529;
-            --text-light: #495057;
+            --text-muted: #6c757d;
             --border-color: #dee2e6;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         }
 
+        /* --- Global Styles --- */
         * {
             margin: 0;
             padding: 0;
@@ -35,11 +35,10 @@
         }
 
         body {
-            background-color: var(--background-light);
+            background-color: var(--background-white);
             color: var(--text-dark);
             line-height: 1.7;
             overflow-x: hidden;
-            /* Prevents horizontal scroll from animations */
         }
 
         .container {
@@ -50,6 +49,10 @@
 
         section {
             padding: 6rem 0;
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--background-light);
         }
 
         .section-heading {
@@ -106,51 +109,66 @@
         }
 
         .nav-links a {
-            color: var(--text-light);
+            color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-
-        /* NEW: Active nav link style */
+        .nav-links a:hover,
         .nav-links a.active {
             color: var(--primary-color);
-            font-weight: 600;
         }
 
-        /* --- Hero / Home Section --- */
+        /* --- Home / Hero Section --- */
         #home {
-            background: var(--background-white);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
         }
 
-        .hero-content h1 {
+        #home .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .hero-text {
+            flex: 2;
+        }
+
+        .hero-text h1 {
             font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
         }
 
-        .hero-content .subtitle {
-            font-size: 1.5rem;
-            color: var(--text-light);
-            font-weight: 400;
+        /* --- Styling for Typed.js --- */
+        .hero-text .subtitle {
+            font-size: 1.75rem;
+            color: var(--text-dark);
+            font-weight: 500;
             margin-bottom: 1.5rem;
             height: 2.5rem;
-            /* Give space for typed.js */
+            /* Fixed height */
         }
 
-        /* NEW: Typed.js cursor style */
+        .hero-text .subtitle .typed-text {
+            color: var(--primary-color);
+        }
+
         .typed-cursor {
-            font-size: 1.5rem;
-            color: var(--text-light);
+            font-size: 1.75rem;
+            color: var(--primary-color);
+        }
+
+        .hero-text .description {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 2rem;
         }
 
         .social-links {
@@ -158,14 +176,15 @@
         }
 
         .social-links a {
-            color: var(--secondary-color);
+            color: var(--text-muted);
             font-size: 1.75rem;
-            margin: 0 1rem;
-            transition: color 0.3s ease;
+            margin-right: 1.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
         .social-links a:hover {
             color: var(--primary-color);
+            transform: translateY(-3px);
         }
 
         .btn {
@@ -175,7 +194,7 @@
             border-radius: 50px;
             font-weight: 500;
             transition: all 0.3s ease;
-            margin: 0.5rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
             border: 2px solid transparent;
         }
 
@@ -199,15 +218,32 @@
 
         .btn-secondary:hover {
             background: var(--background-light);
-            border-color: var(--secondary-color);
+            border-color: var(--primary-color);
             transform: translateY(-2px);
         }
 
-        /* --- About Section --- */
-        #about {
-            background: var(--background-white);
+        /* --- Hero Image --- */
+        .hero-image {
+            flex: 1;
+            max-width: 300px;
+            text-align: center;
         }
 
+        /* --- FIXED: Image styling for full picture --- */
+        .hero-image img {
+            width: 100%;
+            /* Will be 300px wide (or 200px on mobile) */
+            height: auto;
+            /* Lets the height adjust automatically */
+            object-fit: contain;
+            /* Will show the full image, not cropped */
+            border-radius: 10px;
+            /* Rounded rectangle */
+            border: 5px solid var(--background-light);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- About Section --- */
         .about-content {
             max-width: 800px;
             margin: 0 auto;
@@ -216,10 +252,10 @@
 
         .about-content p {
             font-size: 1.1rem;
-            color: var(--text-light);
+            color: var(--text-muted);
         }
 
-        /* --- Card Grid (for Skills, Projects, Achievements) --- */
+        /* --- Card Grid (for Projects & Skills) --- */
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -232,7 +268,9 @@
             border-radius: 10px;
             padding: 2rem;
             box-shadow: var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .card:hover {
@@ -248,56 +286,42 @@
         }
 
         .card p {
-            color: var(--text-light);
+            color: var(--text-muted);
             font-size: 0.95rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+            /* Makes p fill space */
+        }
+
+        .project-tech {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .skill-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
             margin-bottom: 1rem;
         }
 
-        /* Skills Card */
         .skill-card ul {
             list-style: none;
+            padding-left: 0;
         }
 
         .skill-card li {
-            color: var(--text-light);
+            color: var(--text-muted);
             margin-bottom: 0.5rem;
-            position: relative;
-            padding-left: 20px;
         }
 
-        .skill-card li::before {
-            content: '\f00c';
-            /* Font Awesome check icon */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            top: 2px;
-            color: var(--primary-color);
-        }
-
-        /* Project Card */
-        .project-tech {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--secondary-color);
-        }
-
-        /* Achievement Card */
-        .achievement-card i {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        /* --- Timeline (for Experience & Education) --- */
+        /* --- Vertical Timeline (for Exp & Edu) --- */
         .timeline-container {
             position: relative;
             max-width: 800px;
             margin: 0 auto;
         }
 
-        /* The vertical line */
         .timeline-container::after {
             content: '';
             position: absolute;
@@ -312,16 +336,12 @@
         .timeline-item {
             padding: 10px 40px;
             padding-left: 70px;
-            /* Space for icon/dot */
             position: relative;
             background-color: inherit;
             width: 100%;
             margin-bottom: 2rem;
-            /* Added for animation */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
 
-        /* The circle on the timeline */
         .timeline-item::after {
             content: '';
             position: absolute;
@@ -361,30 +381,28 @@
         .timeline-content .date {
             font-size: 0.9rem;
             font-weight: 500;
-            color: var(--secondary-color);
+            color: var(--text-muted);
             margin-bottom: 1rem;
         }
 
         .timeline-content p {
-            color: var(--text-light);
+            color: var(--text-muted);
             font-size: 0.95rem;
         }
 
         /* --- Contact Section --- */
         #contact {
-            background: var(--background-white);
             text-align: center;
         }
 
         .contact-content {
             max-width: 600px;
             margin: 0 auto;
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
 
         .contact-content p {
             font-size: 1.1rem;
-            color: var(--text-light);
+            color: var(--text-muted);
             margin-bottom: 2rem;
         }
 
@@ -413,35 +431,21 @@
             color: var(--primary-color);
         }
 
-        .contact-social {
-            margin-top: 2rem;
-        }
-
-        .contact-social a {
-            color: var(--secondary-color);
-            font-size: 2rem;
-            margin: 0 1rem;
-            transition: color 0.3s ease;
-        }
-
-        .contact-social a:hover {
-            color: var(--primary-color);
-        }
-
         /* --- Footer --- */
         footer {
             text-align: center;
             padding: 2rem 0;
             background: var(--background-light);
-            color: var(--secondary-color);
+            color: var(--text-muted);
             border-top: 1px solid var(--border-color);
             font-size: 0.9rem;
         }
 
-        /* --- NEW: Animation Classes --- */
+        /* --- Animation Classes --- */
         .hidden-init {
             opacity: 0;
             transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
 
         .visible {
@@ -453,31 +457,43 @@
         @media(max-width: 992px) {
             .nav-links {
                 display: none;
-                /* Simple responsive hide, can be replaced with hamburger menu */
             }
         }
 
         @media(max-width: 768px) {
-            .hero-content h1 {
+            section {
+                padding: 4rem 0;
+            }
+
+            #home {
+                min-height: auto;
+                padding-top: 8rem;
+            }
+
+            #home .container {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+
+            .hero-text h1 {
                 font-size: 2.5rem;
             }
 
-            .hero-content .subtitle {
+            .hero-text .subtitle {
                 font-size: 1.2rem;
                 height: auto;
-                /* Allow wrap on mobile */
             }
 
-            .typed-cursor {
-                font-size: 1.2rem;
+            .social-links {
+                justify-content: center;
+            }
+
+            .hero-image {
+                max-width: 200px;
             }
 
             .section-heading {
                 font-size: 2rem;
-            }
-
-            section {
-                padding: 4rem 0;
             }
 
             .timeline-container::after {
@@ -499,15 +515,14 @@
 
     <nav>
         <div class="container">
-            <a href="#home" class="nav-logo">YASWANTH</a>
+            <a href="#home" class="nav-logo">Y.Y.K.R.</a>
             <ul class="nav-links">
                 <li><a href="#home" class="active">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
                 <li><a href="#education">Education</a></li>
-                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#skills">Skills</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -515,10 +530,14 @@
 
     <section id="home">
         <div class="container">
-            <div class="hero-content">
+            <div class="hero-text">
                 <h1>Yatham Yaswanth Kumar Reddy</h1>
-                <p class="subtitle"><span id="typed-subtitle"></span></p>
-
+                <p class="subtitle">
+                    <span class="typed-text"></span>
+                </p>
+                <p class="description">
+                    M.Tech student specializing in algorithms, backend engineering, and secure Web3 architecture.
+                </p>
                 <div class="social-links">
                     <a href="https://www.linkedin.com/in/yatham-yaswanth-kumar-reddy-a82188208/" target="_blank"
                         aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
@@ -533,6 +552,10 @@
                         target="_blank" class="btn btn-secondary">View Resume</a>
                 </div>
             </div>
+
+            <div class="hero-image hidden-init">
+                <img src="profile.jpg" alt="Yatham Yaswanth Kumar Reddy">
+            </div>
         </div>
     </section>
 
@@ -541,7 +564,8 @@
             <h2 class="section-heading hidden-init">About Me</h2>
             <div class="about-content hidden-init">
                 <p>M.Tech Computer Science student with a strong foundation in algorithms and backend engineering,
-                    proven through hackathon wins, impactful projects, and competitive coding.</p>
+                    proven through hackathon wins, impactful projects, and competitive coding. I'm passionate about
+                    building secure, scalable, and efficient software systems.</p>
             </div>
         </div>
     </section>
@@ -559,8 +583,7 @@
                             systematically identifying and documenting critical failures in factual accuracy, logical
                             consistency, and safety guardrails.</p>
                         <p>Developed detailed, multi-point evaluation rubrics and 'Golden Responses' to create
-                            high-quality datasets used for fine-tuning the model and correcting its identified failures.
-                        </p>
+                            high-quality datasets used for fine-tuning the model.</p>
                     </div>
                 </div>
             </div>
@@ -574,66 +597,20 @@
                 <div class="card project-card hidden-init">
                     <h3>Split Learning: Mitigating Attacks using Web3 Stack</h3>
                     <p>Developing a privacy-preserving multi-node split learning framework for secure, decentralized
-                        model training. Implementing smart contracts for auditable tracking of model updates and
-                        contributions on a blockchain.</p>
+                        model training. Implementing smart contracts for auditable tracking of model updates.</p>
                     <div class="project-tech">Python | Docker | Blockchain</div>
                 </div>
                 <div class="card project-card hidden-init" style="transition-delay: 100ms;">
                     <h3>URL Shortener Service</h3>
                     <p>Engineered a scalable REST API-based microservice to convert long URLs into shortened links.
-                        Implemented routing for custom and random alias generation and load-tested the system to handle
-                        over 1,000 requests. Containerized using Docker.</p>
+                        Implemented routing for custom/random aliases and load-tested to 1,000+ requests.</p>
                     <div class="project-tech">Python | Flask | Docker</div>
                 </div>
                 <div class="card project-card hidden-init" style="transition-delay: 200ms;">
                     <h3>CI/CD Pipeline for Microservices</h3>
-                    <p>Designed and implemented a complete CI/CD pipeline to automate the software delivery lifecycle.
-                        Utilized GitHub Actions for automated workflows and achieved a 40% reduction in
-                        deployment-related errors with reproducible Docker builds.</p>
+                    <p>Designed a complete CI/CD pipeline to automate the software delivery lifecycle. Utilized GitHub
+                        Actions for automated workflows for building, testing, and containerizing services.</p>
                     <div class="project-tech">Docker | GitHub Actions</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="skills">
-        <div class="container">
-            <h2 class="section-heading hidden-init">Technical Skills</h2>
-            <div class="card-grid">
-                <div class="card skill-card hidden-init">
-                    <h3>Languages</h3>
-                    <ul>
-                        <li>C, C++</li>
-                        <li>Java</li>
-                        <li>Python</li>
-                        <li>SQL</li>
-                    </ul>
-                </div>
-                <div class="card skill-card hidden-init" style="transition-delay: 100ms;">
-                    <h3>Backend & Frameworks</h3>
-                    <ul>
-                        <li>RESTful APIs</li>
-                        <li>Flask</li>
-                        <li>Object-Oriented Design</li>
-                        <li>Microservices</li>
-                    </ul>
-                </div>
-                <div class="card skill-card hidden-init" style="transition-delay: 200ms;">
-                    <h3>Developer Tools</h3>
-                    <ul>
-                        <li>Git</li>
-                        <li>Docker</li>
-                        <li>GitHub Actions</li>
-                        <li>Linux</li>
-                    </ul>
-                </div>
-                <div class="card skill-card hidden-init" style="transition-delay: 300ms;">
-                    <h3>Core Concepts</h3>
-                    <ul>
-                        <li>Data Structures Algorithms</li>
-                        <li>Operating Systems</li>
-                        <li>System Design</li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -663,32 +640,62 @@
         </div>
     </section>
 
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-heading hidden-init">Skills</h2>
+            <div class="card-grid">
+                <div class="card skill-card hidden-init">
+                    <i class="fas fa-code"></i>
+                    <h3>Languages</h3>
+                    <ul>
+                        <li>C & C++</li>
+                        <li>Java</li>
+                        <li>Python</li>
+                        <li>SQL</li>
+                    </ul>
+                </div>
+                <div class="card skill-card hidden-init" style="transition-delay: 100ms;">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Backend & Frameworks</h3>
+                    <ul>
+                        <li>RESTful APIs</li>
+                        <li>Flask</li>
+                        <li>Object-Oriented Design</li>
+                        <li>Microservices</li>
+                    </ul>
+                </div>
+                <div class="card skill-card hidden-init" style="transition-delay: 200ms;">
+                    <i class="fas fa-tools"></i>
+                    <h3>Developer Tools</h3>
+                    <ul>
+                        <li>Git & GitHub Actions</li>
+                        <li>Docker</li>
+                        <li>Linux</li>
+                        <li>System Design</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="achievements">
         <div class="container">
-            <h2 class="section-heading hidden-init">Achievements & Certifications</h2>
+            <h2 class="section-heading hidden-init">Achievements</h2>
             <div class="card-grid">
-                <div class="card achievement-card hidden-init">
+                <div class="card skill-card hidden-init">
                     <i class="fas fa-trophy"></i>
                     <h3>Winner, Aptean AI Hackathon</h3>
-                    <p>Architected and developed an award-winning LLM-based application suggestion tool, demonstrating
-                        end-to-end product development skills.</p>
+                    <p>Architected and developed an award-winning LLM-based application suggestion tool.</p>
                 </div>
-                <div class="card achievement-card hidden-init" style="transition-delay: 100ms;">
+                <div class="card skill-card hidden-init" style="transition-delay: 100ms;">
                     <i class="fas fa-award"></i>
                     <h3>Semifinalist, Unstop Talent Park</h3>
-                    <p>Secured a semifinalist position in a competitive national talent competition, solving complex
-                        technical challenges.</p>
+                    <p>Secured a semifinalist position in a competitive national talent competition.</p>
                 </div>
-                <div class="card achievement-card hidden-init" style="transition-delay: 200ms;">
+                <div class="card skill-card hidden-init" style="transition-delay: 200ms;">
                     <i class="fas fa-certificate"></i>
-                    <h3>McKinsey Forward Learning Program (2025)</h3>
+                    <h3>McKinsey Forward Program</h3>
                     <p>Selected for a competitive global program on leadership and strategic problem-solving.</p>
-                </div>
-                <div class="card achievement-card hidden-init" style="transition-delay: 300ms;">
-                    <i class="fas fa-code-branch"></i>
-                    <h3>Open-Source Contributor</h3>
-                    <p>Developed a core module for the Health4All application, currently deployed in government
-                        hospitals across 7 states in India.</p>
                 </div>
             </div>
         </div>
@@ -698,8 +705,8 @@
         <div class="container">
             <h2 class="section-heading hidden-init">Contact</h2>
             <div class="contact-content hidden-init">
-                <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your
-                    vision. Feel free to reach out!</p>
+                <p>I'm always open to discussing new projects, creative ideas, or opportunities. Feel free to reach out!
+                </p>
                 <ul class="contact-info">
                     <li>
                         <a href="mailto:yatamyaswanth@gmail.com"><i class="fas fa-envelope"></i>
@@ -708,39 +715,38 @@
                     <li>
                         <a><i class="fas fa-phone"></i> +91-9008560320</a>
                     </li>
-                    <li>
-                        <a><i class="fas fa-map-marker-alt"></i> Puttaparthi, India</a>
-                    </li>
                 </ul>
-                <div class="contact-social">
-                    <a href="https://www.linkedin.com/in/yatham-yaswanth-kumar-reddy-a82188208/" target="_blank"
-                        aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://github.com/yasw175" target="_blank" aria-label="GitHub"><i
-                            class="fab fa-github"></i></a>
-                    <a href="https://leetcode.com/u/Yaswanth_kumar_reddy_123/" target="_blank" aria-label="LeetCode"><i
-                            class="fas fa-code"></i></a>
-                </div>
             </div>
         </div>
     </section>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Yatham Yaswanth Kumar Reddy. All Rights Reserved.</p>
+            <p>© 2025 Yatham Yaswanth Kumar Reddy. All Rights Reserved.</p>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
-            // --- 1. Typed.js Subtitle Effect ---
-            new Typed('#typed-subtitle', {
-                strings: ['M.Tech Student', 'Backend Engineer', 'Algorithm Enthusiast', 'Problem Solver'],
-                typeSpeed: 50,
-                backSpeed: 30,
-                backDelay: 2000,
-                loop: true
-            });
+            // --- 1. FIXED: Typed.js Subtitle Effect ---
+            // This code finds the <span class="typed-text"></span> and starts the animation
+            if (typeof Typed !== 'undefined') {
+                new Typed('.typed-text', {
+                    strings: [
+                        'M.Tech Student',
+                        'Backend Engineer',
+                        'Algorithm Enthusiast',
+                        'Problem Solver'
+                    ],
+                    typeSpeed: 50,
+                    backSpeed: 30,
+                    backDelay: 2000,
+                    loop: true
+                });
+            } else {
+                console.error('Typed.js script not loaded');
+            }
 
             // --- 2. Scroll Animation Observer (for fade-in) ---
             const scrollObserver = new IntersectionObserver((entries) => {
@@ -750,9 +756,8 @@
                         scrollObserver.unobserve(entry.target); // Only animate once
                     }
                 });
-            }, { threshold: 0.1 }); // Trigger when 10% of the element is visible
+            }, { threshold: 0.1 }); // Trigger when 10% is visible
 
-            // Observe all elements with the 'hidden-init' class
             document.querySelectorAll('.hidden-init').forEach(el => {
                 scrollObserver.observe(el);
             });
@@ -760,12 +765,10 @@
             // --- 3. Active Nav Link Observer ---
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.nav-links a');
-
             const navObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const id = entry.target.getAttribute('id');
-
                         navLinks.forEach(link => {
                             link.classList.remove('active');
                             if (link.getAttribute('href') === '#' + id) {
@@ -775,7 +778,7 @@
                     }
                 });
             }, {
-                rootMargin: '-50% 0px -50% 0px' // Triggers when the section is in the middle 50% of the viewport
+                rootMargin: '-50% 0px -50% 0px' // Triggers when section is in middle of viewport
             });
 
             sections.forEach(section => {
