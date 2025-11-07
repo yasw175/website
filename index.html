@@ -41,14 +41,33 @@
             overflow-x: hidden;
         }
 
+        /* --- Animated Particle Canvas --- */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            /* Sits behind content, but on top of bg */
+            pointer-events: none;
+        }
+
         .container {
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 2rem;
+            position: relative;
+            /* To sit on top of canvas */
+            z-index: 2;
         }
 
         section {
             padding: 6rem 0;
+            position: relative;
+            z-index: 2;
+            background-color: var(--background-white);
+            /* Sections need bg to cover canvas */
         }
 
         section:nth-of-type(even) {
@@ -88,15 +107,9 @@
 
         nav .container {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
+            /* Aligns links to the right */
             align-items: center;
-        }
-
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-decoration: none;
         }
 
         .nav-links {
@@ -126,6 +139,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            /* FIXED: Home section must be transparent to see particles */
+            background-color: transparent;
         }
 
         #home .container {
@@ -164,26 +179,26 @@
             color: var(--primary-color);
         }
 
-        .hero-text .description {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin-bottom: 2rem;
-        }
-
         .social-links {
-            margin-bottom: 2rem;
+            margin-top: 2rem;
         }
 
         .social-links a {
-            color: var(--text-muted);
-            font-size: 1.75rem;
-            margin-right: 1.5rem;
-            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+            color: var(--background-white);
+            background-color: #333;
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 50%;
         }
 
         .social-links a:hover {
-            color: var(--primary-color);
+            background-color: var(--primary-color);
             transform: translateY(-3px);
         }
 
@@ -194,7 +209,7 @@
             border-radius: 50px;
             font-weight: 500;
             transition: all 0.3s ease;
-            margin: 0.5rem 0.5rem 0.5rem 0;
+            margin: 1.5rem 0.5rem 0.5rem 0;
             border: 2px solid transparent;
         }
 
@@ -210,50 +225,60 @@
             transform: translateY(-2px);
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-dark);
-            border-color: var(--border-color);
-        }
-
-        .btn-secondary:hover {
-            background: var(--background-light);
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        /* --- Hero Image --- */
-        .hero-image {
+        /* --- Hero Illustration --- */
+        .hero-illustration {
             flex: 1;
-            max-width: 300px;
+            max-width: 400px;
             text-align: center;
         }
 
-        /* --- FIXED: Image styling for full picture --- */
-        .hero-image img {
+        .hero-illustration img {
+            /* Changed from SVG to IMG */
             width: 100%;
-            /* Will be 300px wide (or 200px on mobile) */
             height: auto;
-            /* Lets the height adjust automatically */
-            object-fit: contain;
-            /* Will show the full image, not cropped */
-            border-radius: 10px;
-            /* Rounded rectangle */
-            border: 5px solid var(--background-light);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         /* --- About Section --- */
         .about-content {
-            max-width: 800px;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            max-width: 900px;
             margin: 0 auto;
-            text-align: center;
         }
 
-        .about-content p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
+        .about-image {
+            flex: 1;
+            max-width: 300px;
         }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .about-text {
+            flex: 2;
+        }
+
+        .about-text h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .about-text a.btn {
+            margin-top: 1rem;
+        }
+
 
         /* --- Card Grid (for Projects & Skills) --- */
         .card-grid {
@@ -431,6 +456,32 @@
             color: var(--primary-color);
         }
 
+        /* --- Scroll to Top Button --- */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: var(--background-white);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* --- Footer --- */
         footer {
             text-align: center;
@@ -466,13 +517,25 @@
             }
 
             #home {
-                min-height: auto;
-                padding-top: 8rem;
+                min-height: 100vh;
+                padding-top: 6rem;
             }
 
             #home .container {
-                flex-direction: column-reverse;
+                flex-direction: column;
+                /* Stack text on top of image */
                 text-align: center;
+            }
+
+            .hero-text {
+                order: 2;
+                /* Text comes after image */
+            }
+
+            .hero-illustration {
+                order: 1;
+                /* Image comes first */
+                max-width: 250px;
             }
 
             .hero-text h1 {
@@ -488,8 +551,12 @@
                 justify-content: center;
             }
 
-            .hero-image {
-                max-width: 200px;
+            .about-content {
+                flex-direction: column;
+            }
+
+            .about-image {
+                max-width: 250px;
             }
 
             .section-heading {
@@ -513,9 +580,10 @@
 
 <body>
 
+    <canvas id="particle-canvas"></canvas>
+
     <nav>
         <div class="container">
-            <a href="#home" class="nav-logo">Y.Y.K.R.</a>
             <ul class="nav-links">
                 <li><a href="#home" class="active">Home</a></li>
                 <li><a href="#about">About</a></li>
@@ -531,30 +599,24 @@
     <section id="home">
         <div class="container">
             <div class="hero-text">
-                <h1>Yatham Yaswanth Kumar Reddy</h1>
+                <h1>Hi There,<br />I'm Yaswanth</h1>
                 <p class="subtitle">
-                    <span class="typed-text"></span>
+                    I Am Into <span class="typed-text"></span>
                 </p>
-                <p class="description">
-                    M.Tech student specializing in algorithms, backend engineering, and secure Web3 architecture.
-                </p>
+                <a href="#about" class="btn btn-primary">About Me <i class="fas fa-arrow-right"></i></a>
                 <div class="social-links">
                     <a href="https://www.linkedin.com/in/yatham-yaswanth-kumar-reddy-a82188208/" target="_blank"
-                        aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                     <a href="https://github.com/yasw175" target="_blank" aria-label="GitHub"><i
                             class="fab fa-github"></i></a>
                     <a href="https://leetcode.com/u/Yaswanth_kumar_reddy_123/" target="_blank" aria-label="LeetCode"><i
                             class="fas fa-code"></i></a>
                 </div>
-                <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary">Contact Me</a>
-                    <a href="https://drive.google.com/file/d/12ubV_-R1FX6vkbsCQ2zizR9Wo4BwpBMu/view?usp=sharing"
-                        target="_blank" class="btn btn-secondary">View Resume</a>
-                </div>
             </div>
 
-            <div class="hero-image hidden-init">
-                <img src="profile.jpg" alt="Yatham Yaswanth Kumar Reddy">
+            <div class="hero-illustration hidden-init">
+                <img src="https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/undraw_programming_re_kg9v.svg"
+                    alt="Developer Illustration">
             </div>
         </div>
     </section>
@@ -563,9 +625,18 @@
         <div class="container">
             <h2 class="section-heading hidden-init">About Me</h2>
             <div class="about-content hidden-init">
-                <p>M.Tech Computer Science student with a strong foundation in algorithms and backend engineering,
-                    proven through hackathon wins, impactful projects, and competitive coding. I'm passionate about
-                    building secure, scalable, and efficient software systems.</p>
+                <div class="about-image">
+                    <img src="profile.jpg" alt="Yatham Yaswanth Kumar Reddy">
+                </div>
+                <div class="about-text">
+                    <h3>I'm Yaswanth</h3>
+                    <p>M.Tech Computer Science student with a strong foundation in algorithms and backend engineering,
+                        proven through hackathon wins, impactful projects, and competitive coding.</p>
+                    <p>I'm passionate about building secure, scalable, and efficient software systems, with a keen
+                        interest in Web3 and decentralized architecture.</p>
+                    <a href="https://drive.google.com/file/d/12ubV_-R1FX6vkbsCQ2zizR9Wo4BwpBMu/view?usp=sharing"
+                        target="_blank" class="btn btn-primary">View Resume</a>
+                </div>
             </div>
         </div>
     </section>
@@ -582,8 +653,6 @@
                         <p>Engineered and refined adversarial prompts to perform 'red teaming' on AI models,
                             systematically identifying and documenting critical failures in factual accuracy, logical
                             consistency, and safety guardrails.</p>
-                        <p>Developed detailed, multi-point evaluation rubrics and 'Golden Responses' to create
-                            high-quality datasets used for fine-tuning the model.</p>
                     </div>
                 </div>
             </div>
@@ -595,21 +664,21 @@
             <h2 class="section-heading hidden-init">Projects</h2>
             <div class="card-grid">
                 <div class="card project-card hidden-init">
-                    <h3>Split Learning: Mitigating Attacks using Web3 Stack</h3>
+                    <h3>Split Learning: Mitigating Attacks (Web3)</h3>
                     <p>Developing a privacy-preserving multi-node split learning framework for secure, decentralized
-                        model training. Implementing smart contracts for auditable tracking of model updates.</p>
+                        model training. Implementing smart contracts for auditable tracking.</p>
                     <div class="project-tech">Python | Docker | Blockchain</div>
                 </div>
                 <div class="card project-card hidden-init" style="transition-delay: 100ms;">
                     <h3>URL Shortener Service</h3>
                     <p>Engineered a scalable REST API-based microservice to convert long URLs into shortened links.
-                        Implemented routing for custom/random aliases and load-tested to 1,000+ requests.</p>
+                        Load-tested to 1,000+ requests and containerized with Docker.</p>
                     <div class="project-tech">Python | Flask | Docker</div>
                 </div>
                 <div class="card project-card hidden-init" style="transition-delay: 200ms;">
                     <h3>CI/CD Pipeline for Microservices</h3>
-                    <p>Designed a complete CI/CD pipeline to automate the software delivery lifecycle. Utilized GitHub
-                        Actions for automated workflows for building, testing, and containerizing services.</p>
+                    <p>Designed a complete CI/CD pipeline to automate the software delivery lifecycle using GitHub
+                        Actions for building, testing, and containerizing services.</p>
                     <div class="project-tech">Docker | GitHub Actions</div>
                 </div>
             </div>
@@ -726,18 +795,19 @@
         </div>
     </footer>
 
+    <a href="#home" class="scroll-to-top"><i class="fas fa-arrow-up"></i></a>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
             // --- 1. FIXED: Typed.js Subtitle Effect ---
-            // This code finds the <span class="typed-text"></span> and starts the animation
             if (typeof Typed !== 'undefined') {
                 new Typed('.typed-text', {
                     strings: [
-                        'M.Tech Student',
-                        'Backend Engineer',
-                        'Algorithm Enthusiast',
-                        'Problem Solver'
+                        'Full Stack Development',
+                        'Backend Engineering',
+                        'Web3 Development',
+                        'Problem Solving'
                     ],
                     typeSpeed: 50,
                     backSpeed: 30,
@@ -745,7 +815,7 @@
                     loop: true
                 });
             } else {
-                console.error('Typed.js script not loaded');
+                console.error('Typed.js script not loaded. Check script src link.');
             }
 
             // --- 2. Scroll Animation Observer (for fade-in) ---
@@ -753,10 +823,10 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        scrollObserver.unobserve(entry.target); // Only animate once
+                        scrollObserver.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1 }); // Trigger when 10% is visible
+            }, { threshold: 0.1 });
 
             document.querySelectorAll('.hidden-init').forEach(el => {
                 scrollObserver.observe(el);
@@ -778,13 +848,105 @@
                     }
                 });
             }, {
-                rootMargin: '-50% 0px -50% 0px' // Triggers when section is in middle of viewport
+                rootMargin: '-50% 0px -50% 0px'
             });
 
             sections.forEach(section => {
                 navObserver.observe(section);
             });
 
+            // --- 4. Scroll to Top Button ---
+            const scrollTopBtn = document.querySelector('.scroll-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    scrollTopBtn.classList.add('visible');
+                } else {
+                    scrollTopBtn.classList.remove('visible');
+                }
+            });
+
+            // --- 5. Particle.js Animation ---
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+                init(); // Re-init on resize
+            });
+
+            function Particle(x, y, dx, dy, radius) {
+                this.x = x;
+                this.y = y;
+                this.dx = dx;
+                this.dy = dy;
+                this.radius = radius;
+            }
+
+            Particle.prototype.draw = function () {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                ctx.fillStyle = 'rgba(150, 150, 150, 0.5)';
+                ctx.fill();
+            }
+
+            Particle.prototype.update = function () {
+                if (this.x + this.radius > width || this.x - this.radius < 0) {
+                    this.dx = -this.dx;
+                }
+                if (this.y + this.radius > height || this.y - this.radius < 0) {
+                    this.dy = -this.dy;
+                }
+                this.x += this.dx;
+                this.y += this.dy;
+                this.draw();
+            }
+
+            function connect() {
+                let opacity;
+                for (let a = 0; a < particles.length; a++) {
+                    for (let b = a + 1; b < particles.length; b++) {
+                        let distance = Math.sqrt(Math.pow(particles[a].x - particles[b].x, 2) + Math.pow(particles[a].y - particles[b].y, 2));
+                        if (distance < (width / 10)) { // Adjust linking distance
+                            opacity = 1 - (distance / (width / 10));
+                            ctx.strokeStyle = 'rgba(150, 150, 150, ' + opacity + ')';
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(particles[b].x, particles[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function init() {
+                particles = [];
+                let numberOfParticles = (width * height) / 12000; // Fewer particles
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let radius = (Math.random() * 2) + 1;
+                    let x = (Math.random() * (width - radius * 2)) + radius;
+                    let y = (Math.random() * (height - radius * 2)) + radius;
+                    let dx = (Math.random() - 0.5) * 0.5; // Slow speed
+                    let dy = (Math.random() - 0.5) * 0.5; // Slow speed
+                    particles.push(new Particle(x, y, dx, dy, radius));
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, width, height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                }
+                connect();
+            }
+
+            init();
+            animate();
         });
     </script>
 
